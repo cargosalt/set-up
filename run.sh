@@ -39,11 +39,6 @@ if [[ "$ID" != "ubuntu" && "$ID" != "debian" && "$ID" != "linuxmint" ]]; then
     warning "本脚本主要为 Ubuntu/Debian 编写，其他发行版可能需要手动调整"
 fi
 
-# --- 0.5. 🔧 Git 全局代理（提前！在所有 git clone 之前） ---
-info "🌐 配置 Git 全局代理..."
-git config --global http.proxy "$PROXY_URL"
-git config --global https.proxy "$PROXY_URL"
-
 # --- 1. 更新系统 & 安装基础工具 ---
 info "🔄 更新系统并安装基础工具..."
 sudo apt update && sudo apt upgrade -y
@@ -51,6 +46,10 @@ sudo apt install -y \
     zsh git curl wget vim tmux htop tree jq unzip \
     build-essential software-properties-common apt-transport-https \
     ca-certificates gnupg lsb-release openssh-server
+
+info "🌐 配置 Git 全局代理..."
+git config --global http.proxy "$PROXY_URL"
+git config --global https.proxy "$PROXY_URL"
 
 # --- 2. 安装 Zsh & Oh My Zsh ---
 info "💻 安装 Zsh & Oh My Zsh..."
