@@ -52,7 +52,7 @@ git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting "$ZSH_C
 sed -i 's/^plugins=(.*)/plugins=(git zsh-autosuggestions zsh-syntax-highlighting)/' ~/.zshrc
 sed -i 's/^ZSH_THEME=.*/ZSH_THEME="robbyrussell"/' ~/.zshrc
 
-# >> Zsh 代理配置 + 开关函数（含 Git 同步）
+# >> Zsh 代理配置 + 开关函数
 info "🌐 配置 Zsh 代理 (${PROXY_ADDR})..."
 cat >> ~/.zshrc << EOF
 
@@ -82,10 +82,10 @@ EOF
 
 # --- 3. 安装编程语言 ---
 
-# >> Python 3
+# >> Python 3 🔧 修复 PEP 668
 info "🐍 配置 Python 环境..."
-sudo apt install -y python3-pip python3-venv python3-dev
-pip3 install --upgrade pip
+sudo apt install -y python3-pip python3-venv python3-dev pipx
+pipx ensurepath 2>/dev/null || true
 
 # >> Node.js (via nvm)
 info "📦 安装 Node.js (via nvm)..."
@@ -159,11 +159,10 @@ rm lazygit.tar.gz
 
 echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
 
-# --- 6. 🆕 开启 SSH 服务 ---
+# --- 6. 开启 SSH 服务 ---
 info "🔐 配置 SSH 服务..."
 sudo systemctl enable ssh
 sudo systemctl start ssh
-# 如果开了 ufw 防火墙就放行 22 端口
 sudo ufw allow ssh 2>/dev/null && info "防火墙已放行 SSH (22)" || true
 
 # --- 7. 设置 Zsh 为默认 Shell ---
@@ -178,7 +177,7 @@ echo ""
 echo -e "${YELLOW}已安装的内容：${NC}"
 echo "  ✅ Zsh + Oh My Zsh (含 proxy_on/off 开关，同步管理 Git 代理)"
 echo "  ✅ Git 全局代理 (${PROXY_ADDR})"
-echo "  ✅ Python 3 + pip"
+echo "  ✅ Python 3 + pip + pipx (venv 友好，无 PEP 668 报错)"
 echo "  ✅ Node.js (LTS) + npm + yarn + pnpm"
 echo "  ✅ Go"
 echo "  ✅ Rust"
@@ -191,6 +190,7 @@ echo "  🔸 重新打开终端 或运行: source ~/.zshrc"
 echo "  🔸 查看虚拟机 IP: ip a | grep 'inet '"
 echo "  🔸 从宿主机 SSH 连接: ssh $(whoami)@<虚拟机IP>"
 echo "  🔸 开关代理: proxy_on / proxy_off"
-echo "  🔸 vcpkg 首次使用: vcpkg integrate install"
+echo "  🔸 Python 工具用 pipx 装: pipx install black"
+echo "  🔸 Python 项目用 venv: python3 -m venv .venv && source .venv/bin/activate"
 echo ""
 echo -e "${GREEN}Enjoy your new dev environment! 🎉${NC}"
