@@ -131,7 +131,7 @@ sudo apt install -y \
 info "📦 安装 vcpkg (C++ 包管理器)..."
 if [ ! -d "$HOME/vcpkg" ]; then
     git clone https://github.com/microsoft/vcpkg.git ~/vcpkg
-    ~/vcpkg/bootstrap-vcpkg.sh -j$(nproc)
+    ~/vcpkg/bootstrap-vcpkg.sh
     echo 'export PATH="$HOME/vcpkg:$PATH"' >> ~/.zshrc
 fi
 
