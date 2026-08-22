@@ -41,7 +41,7 @@ fi
 
 # --- 1. 更新系统 & 安装基础工具 ---
 info "🔄 更新系统并安装基础工具..."
-sudo apt update && sudo apt upgrade -y
+sudo apt update
 sudo apt install -y \
     zsh git curl wget vim tmux htop tree jq unzip \
     build-essential software-properties-common apt-transport-https \
